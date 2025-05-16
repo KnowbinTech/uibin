@@ -15,4 +15,10 @@ export interface ThemeToggleProps {
    * @default 'Toggle theme'
    */
   ariaLabel?: string;
+
+  /**
+   * Whether to show the icon or text
+   * @default true
+   */
+  showIcon?: boolean;
 } 

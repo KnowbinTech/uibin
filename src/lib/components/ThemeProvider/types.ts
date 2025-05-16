@@ -23,4 +23,16 @@ export interface ThemeProviderProps {
    * @default true
    */
   syncWithSystem?: boolean;
+
+  /**
+   * Custom colors to apply to the theme
+   * @default undefined
+   */
+  customColors?: Record<string, string>;
+
+  /**
+   * Enable debug logging
+   * @default false
+   */
+  debug?: boolean;
 } 

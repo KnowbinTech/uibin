@@ -3,41 +3,62 @@
   import Moon from '@lucide/svelte/icons/moon';
   import Sun from '@lucide/svelte/icons/sun';
   import { useTheme } from '../../hooks/useTheme.js';
+  import { get } from 'svelte/store';
   import type { ThemeToggleProps } from './types.js';
+  import { forceThemeUpdate } from '../../utils/applyTheme.js';
   
-  /**
-   * Additional CSS classes to add to the button
-   */
-  export let class$ = '';
-  
-  /**
-   * The size of the icon in pixels
-   */
-  export let size: ThemeToggleProps['size'] = 20;
-  
-  /**
-   * The aria-label for the toggle button
-   */
-  export let ariaLabel: ThemeToggleProps['ariaLabel'] = 'Toggle theme';
-  
+  let { 
+    class: className = '', 
+    size = 20, 
+    ariaLabel = 'Toggle theme',
+    showIcon = true 
+  } = $props<{
+    class?: string;
+    size?: ThemeToggleProps['size'];
+    ariaLabel?: ThemeToggleProps['ariaLabel'];
+    showIcon?: ThemeToggleProps['showIcon'];
+  }>();
+
   // Get theme context
   const { mode, setMode } = useTheme();
   
-  // Toggle theme mode between light and dark
+  // Track current mode in local state
+  let currentMode = $state<'light' | 'dark'>(get(mode));
+  
+  // Keep track of changes to mode
+  $effect(() => {
+    const unsubscribe = mode.subscribe((value: 'light' | 'dark') => {
+      currentMode = value;
+    });
+    
+    return () => unsubscribe();
+  });
+  
+  // Toggle theme function
   function toggleTheme() {
-    setMode($mode === 'light' ? 'dark' : 'light');
+    const newMode = currentMode === 'light' ? 'dark' : 'light';
+    setMode(newMode);
+    
+    // Force theme update on all elements after a brief delay
+    setTimeout(() => {
+      forceThemeUpdate();
+    }, 50);
   }
 </script>
 
 <button 
   type="button" 
-  class="inline-flex items-center justify-center rounded-md p-2 bg-accent hover:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring {class$}"
-  on:click={toggleTheme}
+  class="inline-flex items-center justify-center rounded-md p-2 bg-secondary hover:bg-secondary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring text-secondary-foreground {className}"
+  onclick={toggleTheme}
   aria-label={ariaLabel}
 >
-  {#if $mode === 'light'}
-    <Moon size={size} />
+  {#if showIcon}
+    {#if currentMode === 'light'}
+      <Moon size={size} />
+    {:else}
+      <Sun size={size} />
+    {/if}
   {:else}
-    <Sun size={size} />
+    {currentMode === 'light' ? 'Dark' : 'Light'}
   {/if}
 </button> 

@@ -1,58 +1,145 @@
-# Svelte library
+# UIBIN
 
-Everything you need to build a Svelte library, powered by [`sv`](https://npmjs.com/package/sv).
+A modern UI component library for SvelteKit built with Tailwind CSS 4 and Svelte 5.
 
-Read more about creating a library [in the docs](https://svelte.dev/docs/kit/packaging).
+## Features
 
-## Creating a project
+- 🎨 Built with Tailwind CSS 4
+- 📦 Built with Svelte 5
+- 🌗 Light and dark mode support
+- 🧩 Modular and customizable components
+- 🔍 Fully typed with TypeScript
+- 📐 Responsive design
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Installation & Setup
 
-```bash
-# create a new project in the current directory
-npx sv create
+UIBIN can be used in two ways:
 
-# create a new project in my-app
-npx sv create my-app
-```
+### Method 1: CLI Installation (Recommended for customization)
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
-
-## Building
-
-To build your library:
+This method copies the components directly into your project, similar to shadcn-ui.
 
 ```bash
-npm run package
+# Install the CLI
+npm install -g @knowbintech/uibin-cli
+
+# Initialize UIBIN in your project
+uibin init
+
+# Add components
+uibin add ThemeProvider
+uibin add ThemeToggle
 ```
 
-To create a production version of your showcase app:
+Then use the components in your project:
+
+```svelte
+<script>
+  import '../app.css';
+  import { ThemeProvider } from '$lib/components/uibin/ThemeProvider';
+</script>
+
+<ThemeProvider>
+  <slot />
+</ThemeProvider>
+```
+
+### Method 2: Package Installation
+
+Install as a traditional npm package:
 
 ```bash
-npm run build
+# Using bun
+bun add @knowbintech/uibin
+
+# Using npm
+npm install @knowbintech/uibin
+
+# Using yarn
+yarn add @knowbintech/uibin
+
+# Using pnpm
+pnpm add @knowbintech/uibin
 ```
 
-You can preview the production build with `npm run preview`.
+Set up in your project:
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+1. Import the CSS file in your root layout (e.g., `+layout.svelte`):
 
-## Publishing
+```svelte
+<script>
+  import '@knowbintech/uibin/styles.css';
+</script>
+```
 
-Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
+2. Wrap your app with the ThemeProvider (e.g., in your `+layout.svelte`):
 
-To publish your library to [npm](https://www.npmjs.com):
+```svelte
+<script>
+  import '@knowbintech/uibin/styles.css';
+  import { ThemeProvider } from '@knowbintech/uibin';
+</script>
+
+<ThemeProvider>
+  <slot />
+</ThemeProvider>
+```
+
+## Usage
+
+```svelte
+<script>
+  import { ThemeToggle } from '@knowbintech/uibin';
+</script>
+
+<div class="p-4">
+  <h1 class="text-2xl font-bold">My App</h1>
+  <p class="my-4">Welcome to my app with UIBIN components</p>
+  <ThemeToggle />
+</div>
+```
+
+## Components
+
+- **ThemeProvider**: Provides theme context to all children components
+- **ThemeToggle**: A button to toggle between light and dark mode
+
+More components coming soon!
+
+## Development
+
+### Prerequisites
+
+- [Bun](https://bun.sh/) or Node.js 18+
+- [SvelteKit](https://kit.svelte.dev/)
+
+### Local Development
 
 ```bash
-npm publish
+# Clone the repository
+git clone https://github.com/KnowbinTech/uibin.git
+cd uibin
+
+# Install dependencies
+bun install
+
+# Start the development server
+bun dev
+
+# Run Storybook
+bun storybook
 ```
+
+### Building
+
+```bash
+bun run package
+```
+
+## License
+
+MIT
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.

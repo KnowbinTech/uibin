@@ -4,78 +4,117 @@
   import { writable } from 'svelte/store';
   import type { ThemeProviderProps } from './types.js';
   import type { ThemeContextValue } from '../../types/theme.js';
+  import { applyTheme, initializeTheme } from '../../utils/applyTheme.js';
   
-  /**
-   * Initial theme mode
-   */
-  export let initialMode: ThemeProviderProps['initialMode'] = 'light';
+  let { 
+    children,
+    initialMode = 'light', 
+    persistMode = true, 
+    syncWithSystem = true,
+    customColors = undefined,
+    debug = false
+  } = $props<{
+    children: any;
+    initialMode?: ThemeProviderProps['initialMode'];
+    persistMode?: ThemeProviderProps['persistMode'];
+    syncWithSystem?: ThemeProviderProps['syncWithSystem'];
+    customColors?: ThemeProviderProps['customColors'];
+    debug?: ThemeProviderProps['debug'];
+  }>();
   
-  /**
-   * Whether to persist the theme mode in localStorage
-   */
-  export let persistMode: ThemeProviderProps['persistMode'] = true;
+  // Initialize theme state
+  let initialThemeMode = initialMode;
   
-  /**
-   * Whether to sync with the system theme preference
-   */
-  export let syncWithSystem: ThemeProviderProps['syncWithSystem'] = true;
+  // Toggle console debugging
+  const log = debug 
+    ? (...args: any[]) => console.debug('[ThemeProvider]', ...args) 
+    : () => {};
   
   // Create the mode store
-  const mode = writable<'light' | 'dark'>(initialMode || 'light');
+  const mode = writable<'light' | 'dark'>(initialThemeMode);
   
-  // Set the theme mode
+  // Local reactive state
+  let currentMode = $state<'light' | 'dark'>(initialThemeMode);
+  
+  // Function to set the theme mode
   function setMode(newMode: 'light' | 'dark') {
+    log(`Setting mode to ${newMode}`);
+    
+    // Update the store and local state
     mode.set(newMode);
+    currentMode = newMode;
     
-    if (persistMode && typeof localStorage !== 'undefined') {
+    // Persist to localStorage
+    if (typeof window !== 'undefined' && persistMode) {
       localStorage.setItem('uibin-theme', newMode);
+      log('Theme saved to localStorage');
     }
     
-    applyThemeMode(newMode);
+    // Apply theme using utility
+    applyTheme(newMode, customColors);
   }
   
-  // Apply theme mode to document
-  function applyThemeMode(themeMode: 'light' | 'dark') {
+  // Watch for currentMode changes
+  $effect(() => {
     if (typeof document !== 'undefined') {
-      document.documentElement.classList.toggle('dark', themeMode === 'dark');
+      log(`Effect triggered with mode: ${currentMode}`);
+      applyTheme(currentMode, customColors);
     }
-  }
+  });
   
-  // Set up theme context
+  // Create theme context for child components
   const themeContext: ThemeContextValue = {
     mode,
     setMode,
   };
   
+  // Set context so child components can access theme
   setContext('theme', themeContext);
   
+  // Apply theme on initialization
+  $effect.pre(() => {
+    if (typeof document !== 'undefined') {
+      log('Pre-effect: applying theme');
+      applyTheme(currentMode, customColors);
+    }
+  });
+
   onMount(() => {
-    let initialThemeMode = initialMode || 'light';
+    log('ThemeProvider mounted');
     
-    // Check for saved theme preference
+    // Initialize theme with current mode
+    initializeTheme(currentMode);
+    
+    // Get saved theme from localStorage if available
+    let savedTheme: 'light' | 'dark' | null = null;
     if (persistMode && typeof localStorage !== 'undefined') {
-      const savedTheme = localStorage.getItem('uibin-theme') as 'light' | 'dark' | null;
-      if (savedTheme) {
-        initialThemeMode = savedTheme;
-      } else if (syncWithSystem && typeof window !== 'undefined') {
-        // Check system preference if no saved preference
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        initialThemeMode = prefersDark ? 'dark' : 'light';
-      }
+      savedTheme = localStorage.getItem('uibin-theme') as 'light' | 'dark' | null;
+      log(`Saved theme from localStorage: ${savedTheme}`);
     }
     
-    mode.set(initialThemeMode);
-    applyThemeMode(initialThemeMode);
+    // Check system preference if enabled and no saved preference
+    let detectedTheme = initialMode;
+    if (!savedTheme && syncWithSystem && typeof window !== 'undefined') {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      detectedTheme = prefersDark ? 'dark' : 'light';
+      log(`System preference detected: ${detectedTheme}`);
+    }
+    
+    // Set theme based on priority: localStorage > system preference > initialMode
+    const themeToUse = savedTheme || detectedTheme;
+    log(`Using theme: ${themeToUse} (saved: ${!!savedTheme}, system: ${syncWithSystem})`);
+    setMode(themeToUse);
     
     // Listen for system theme changes
     if (syncWithSystem && typeof window !== 'undefined') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       
       const handleChange = (event: MediaQueryListEvent) => {
-        if (!localStorage.getItem('uibin-theme')) {
+        // Only follow system preference if user hasn't explicitly set a theme
+        if (persistMode && !localStorage.getItem('uibin-theme')) {
           const newMode = event.matches ? 'dark' : 'light';
-          mode.set(newMode);
-          applyThemeMode(newMode);
+          log(`System theme changed to: ${newMode}`);
+          setMode(newMode);
         }
       };
       
@@ -88,4 +127,4 @@
   });
 </script>
 
-<slot></slot> 
+{@render children()} 

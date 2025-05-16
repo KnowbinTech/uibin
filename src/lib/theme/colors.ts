@@ -1,55 +1,61 @@
 // theme/colors.ts
 export const colors = {
     light: {
-      background: "#ffffff",
-      foreground: "#0f172a", // text color
+      background: "hsl(0 0% 100%)",
+      foreground: "hsl(222.2 84% 4.9%)", // text color
   
-      primary: "#3b82f6",
-      primaryForeground: "#ffffff",
+      primary: "hsl(221.2 83.2% 53.3%)",
+      "primary-foreground": "hsl(210 40% 98%)",
   
-      secondary: "#f3f4f6",
-      secondaryForeground: "#1f2937",
+      secondary: "hsl(210 40% 96.1%)",
+      "secondary-foreground": "hsl(222.2 47.4% 11.2%)",
   
-      muted: "#f1f5f9",
-      mutedForeground: "#64748b",
+      muted: "hsl(210 40% 96.1%)",
+      "muted-foreground": "hsl(215.4 16.3% 46.9%)",
   
-      accent: "#f8fafc",
-      accentForeground: "#0f172a",
+      accent: "hsl(210 40% 96.1%)",
+      "accent-foreground": "hsl(222.2 47.4% 11.2%)",
   
-      card: "#ffffff",
-      cardForeground: "#0f172a",
+      card: "hsl(0 0% 100%)",
+      "card-foreground": "hsl(222.2 84% 4.9%)",
   
-      popover: "#ffffff",
-      popoverForeground: "#0f172a",
+      popover: "hsl(0 0% 100%)",
+      "popover-foreground": "hsl(222.2 84% 4.9%)",
   
-      border: "#e2e8f0",
-      input: "#e2e8f0",
-      ring: "#3b82f6",
+      destructive: "hsl(0 72.22% 50.59%)",
+      "destructive-foreground": "hsl(210 40% 98%)",
+  
+      border: "hsl(214.3 31.8% 91.4%)",
+      input: "hsl(214.3 31.8% 91.4%)",
+      ring: "hsl(221.2 83.2% 53.3%)",
     },
     dark: {
-      background: "#0f172a",
-      foreground: "#f8fafc", // text color
+      background: "hsl(222.2 84% 4.9%)",
+      foreground: "hsl(210 40% 98%)",
   
-      primary: "#3b82f6",
-      primaryForeground: "#ffffff",
+      primary: "hsl(217.2 91.2% 59.8%)",
+      "primary-foreground": "hsl(222.2 47.4% 11.2%)",
   
-      secondary: "#1e293b",
-      secondaryForeground: "#f8fafc",
+      secondary: "hsl(217.2 32.6% 17.5%)",
+      "secondary-foreground": "hsl(210 40% 98%)",
   
-      muted: "#1e293b",
-      mutedForeground: "#94a3b8",
+      muted: "hsl(217.2 32.6% 17.5%)",
+      "muted-foreground": "hsl(215 20.2% 65.1%)",
   
-      accent: "#1e293b",
-      accentForeground: "#f8fafc",
+      accent: "hsl(217.2 32.6% 17.5%)",
+      "accent-foreground": "hsl(210 40% 98%)",
   
-      card: "#1e293b",
-      cardForeground: "#f8fafc",
+      card: "hsl(222.2 84% 4.9%)",
+      "card-foreground": "hsl(210 40% 98%)",
   
-      popover: "#0f172a",
-      popoverForeground: "#f8fafc",
+      popover: "hsl(222.2 84% 4.9%)",
+      "popover-foreground": "hsl(210 40% 98%)",
   
-      border: "#334155",
-      input: "#334155",
-      ring: "#1e293b",
+      destructive: "hsl(0 62.8% 30.6%)",
+      "destructive-foreground": "hsl(210 40% 98%)",
+  
+      border: "hsl(217.2 32.6% 17.5%)",
+      input: "hsl(217.2 32.6% 17.5%)",
+      ring: "hsl(224.3 76.3% 48%)",
     }
   }

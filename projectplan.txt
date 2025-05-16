@@ -1,0 +1,137 @@
+# UIBIN Component Library Project Plan
+
+## 1. Project Overview
+UIBIN is a customizable component library for SvelteKit applications built with Svelte 5, TypeScript, and Tailwind 4, using Bun as the runtime and package manager. It follows Shopify Polaris design principles and uses Lucide Svelte for icons.
+
+### Goals:
+- Create a comprehensive, type-safe component library
+- Ensure full customizability through a centralized theming system
+- Provide a CLI tool for installing components individually
+- Follow best practices for accessibility, performance, and developer experience
+
+## 2. Project Structure
+```
+/src
+  /lib
+    /components
+      /[component-name]
+        index.ts           # Exports component
+        ComponentName.svelte  # Component implementation
+        types.ts           # Type definitions
+    /utils                 # Utility functions
+    /hooks                 # Custom hooks
+    /types                 # Shared type definitions
+    /theme                 # Theme system
+    index.ts               # Main export file
+  /cli                     # CLI tool
+    installer.ts
+  /docs                    # Documentation
+```
+
+## 3. Development Phases
+
+### Phase 1: Project Setup and Core Infrastructure (Weeks 1-2)
+- [x] Initialize SvelteKit project with TypeScript
+- [x] Configure Tailwind 4
+- [x] Set up theme system (colors and radius)
+- [x] Create theme provider component
+- [x] Implement theme customization utilities
+- [x] Set up component testing environment
+- [x] Implement documentation site structure
+
+### Phase 2: Base Components (Weeks 3-4)
+- [ ] Implement fundamental layout components:
+  - [ ] Container, Box, Grid, Stack
+- [ ] Implement basic UI elements:
+  - [ ] Button, ButtonGroup
+  - [ ] Text Field, Checkbox, Radio
+  - [ ] Card, Divider
+
+### Phase 3: Form Components (Weeks 5-6)
+- [ ] Select, Combobox
+- [ ] TextArea
+- [ ] Switch, Slider
+- [ ] DatePicker
+- [ ] Form validation utilities
+
+### Phase 4: Navigation and Data Display (Weeks 7-8)
+- [ ] Tabs, Navigation
+- [ ] Pagination, Breadcrumb
+- [ ] Table, List
+- [ ] Avatar, Badge, Tag
+
+### Phase 5: Feedback and Overlay Components (Weeks 9-10)
+- [ ] Alert, Toast
+- [ ] Dialog (Modal)
+- [ ] Popover, Tooltip
+- [ ] Drawer, DropdownMenu
+- [ ] Skeleton, Spinner
+
+### Phase 6: Advanced Components (Weeks 11-12)
+- [ ] DataTable
+- [ ] Calendar
+- [ ] RichTextEditor
+- [ ] Charts (basic)
+- [ ] InfiniteScroll
+
+### Phase 7: CLI Tool Development (Weeks 13-14)
+- [ ] Design CLI architecture
+- [ ] Implement component installation
+- [ ] Add theme customization options
+- [ ] Add documentation and help commands
+- [ ] Test across different project setups
+
+### Phase 8: Documentation and Testing (Weeks 15-16)
+- [ ] Complete component documentation
+- [ ] Add usage examples
+- [ ] Ensure test coverage for all components
+- [ ] Performance testing and optimization
+- [ ] Accessibility audit and improvements
+
+## 4. Implementation Guidelines
+
+### Theme System
+- Use CSS variables for all theme colors and values
+- All components must reference theme tokens, never hardcoded colors
+- Support both light and dark themes
+- Allow theme customization through a simple API
+
+### Component Design Principles
+- Follow Shopify Polaris design principles
+- Ensure keyboard accessibility for all interactive components
+- Properly implement ARIA attributes
+- Support both SSR and CSR rendering
+- Minimize bundle size through code splitting
+
+### Development Standards
+- Full TypeScript typing, no 'any' types
+- Comprehensive test coverage
+- Consistent code style and formatting
+- Clear documentation and examples
+
+## 5. Release Strategy
+- Alpha release: Basic components and theme system
+- Beta release: Complete component set, CLI tool in testing
+- 1.0 release: Full component library, CLI tool, and documentation
+
+## 6. Maintenance Plan
+- Regular updates to align with Svelte, Tailwind, and Bun releases
+- Semantic versioning for predictable updates
+- Performance and accessibility improvements
+- Community contribution guidelines
+
+## 7. Component Development Priority
+1. Core layout components
+2. Form elements
+3. Navigation components
+4. Data display components
+5. Feedback components
+6. Overlay components
+7. Advanced components
+
+## 8. Known Issues and Next Steps
+- Fix import paths in TypeScript files to include .js extension as required by moduleResolution: 'node16'
+- Add specific installation instructions for the Lucide SVG icon library
+- Update tailwind.config.js to use theme CSS variables
+- Create example application showcasing theme toggling
+- Set up comprehensive testing for theme functionality
