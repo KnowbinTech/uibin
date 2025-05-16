@@ -1,0 +1,30 @@
+UIBIN Component Library Requirements
+Project Overview
+A customizable component library for SvelteKit applications built with Svelte 5, TypeScript, and Tailwind 4 using Bun as the runtime and package manager.
+Core Requirements
+CLI tool for installing components (bunx install uibin)
+Individual component installation
+Theme customization via a central theme file
+Follow Shopify Polaris design principles
+Use Lucide Svelte for icons
+Fully typed with TypeScript
+Built with the latest versions of all tools and frameworks
+Technical Specifications
+Runtime/Package Manager: Bun
+Frontend Framework: SvelteKit/Svelte 5
+Styling: Tailwind 4
+Icons: Lucide Svelte
+
+Project Structure
+/src
+  /lib
+    /components
+      /[component-name]
+    /utils
+    /hooks
+    /types
+    /theme
+    index.ts
+  /cli
+    installer.ts
+  /docs

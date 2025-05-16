@@ -1,0 +1,120 @@
+##Usage Guidelines
+Primary
+Color: The main brand color
+Usage: Primary buttons, main action items, focus states, links, active menu items
+Foreground: Text/icons that appear on primary color backgrounds
+Secondary
+Color: Supporting color for less prominent actions
+Usage: Secondary buttons, tags, background of selected items
+Foreground: Text/icons that appear on secondary color backgrounds
+Muted
+Color: Subtle backgrounds for less emphasis
+Usage: Disabled buttons, background for non-interactive elements, tertiary actions
+Foreground: Text with reduced emphasis, placeholder text, hints, labels
+Accent
+Color: Used to draw attention to specific elements
+Usage: Highlighted areas, badges, notifications, success messages
+Foreground: Text/icons on accent backgrounds
+Card
+Color: Container backgrounds
+Usage: Cards, modals, dropdowns, panels, sidebar
+Foreground: Default text color within cards
+Popover
+Color: Background for floating elements
+Usage: Tooltips, menus, dialogs
+Foreground: Text within popover elements
+Border
+Usage: Dividers, outlines for form controls, table cell borders, separators between content
+Input
+Usage: Form control borders (textfields, selects, textareas)
+Ring
+Usage: Focus states, outline when components receive keyboard focus
+
+#Component Examples
+// Button component using theme tokens
+const Button = {
+  base: "inline-flex items-center justify-center rounded font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+  
+  variants: {
+    primary: "bg-primary text-primaryForeground hover:bg-primary/90",
+    secondary: "bg-secondary text-secondaryForeground hover:bg-secondary/80",
+    outline: "border border-input bg-background hover:bg-accent hover:text-accentForeground",
+    ghost: "hover:bg-accent hover:text-accentForeground",
+    destructive: "bg-destructive text-destructiveForeground hover:bg-destructive/90",
+    link: "text-primary underline-offset-4 hover:underline"
+  },
+  
+  sizes: {
+    sm: "h-9 px-3 text-sm",
+    md: "h-10 px-4 py-2",
+    lg: "h-11 px-8 text-lg",
+    icon: "h-10 w-10"
+  }
+}
+
+#Theme Usage in Projects
+When installed in a project, users can customize the theme by modifying the theme.ts file:
+// theme.ts (generated in user's project)
+import { defineTheme } from 'uibin/theme'
+
+export default defineTheme({
+  colors: {
+    light: {
+      primary: '#0ea5e9', // Customize primary color
+      border: '#e5e7eb',  // Customize border color
+      // Override other colors as needed
+    },
+    dark: {
+      background: '#111827',
+      // Override dark mode colors
+    }
+  },
+  radius: {
+    DEFAULT: '0.375rem', // Change default border radius
+    // Customize other radius values
+  }
+})
+
+
+#Theme Toggle Implementation
+
+<!-- components/ThemeToggle.svelte -->
+<script lang="ts">
+  import { Moon, Sun } from 'lucide-svelte';
+  import { onMount } from 'svelte';
+  
+  let theme: 'light' | 'dark' = 'light';
+  
+  onMount(() => {
+    // Check system or stored preference
+    const savedTheme = localStorage.getItem('uibin-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme) {
+      theme = savedTheme as 'light' | 'dark';
+      document.documentElement.classList.toggle('dark', theme === 'dark');
+    } else if (prefersDark) {
+      theme = 'dark';
+      document.documentElement.classList.add('dark');
+    }
+  });
+  
+  function toggleTheme() {
+    theme = theme === 'light' ? 'dark' : 'light';
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    localStorage.setItem('uibin-theme', theme);
+  }
+</script>
+
+<button 
+  type="button" 
+  class="rounded-md p-2 bg-accent text-accentForeground hover:bg-accent/80"
+  on:click={toggleTheme}
+  aria-label={theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'}
+>
+  {#if theme === 'light'}
+    <Moon size={20} />
+  {:else}
+    <Sun size={20} />
+  {/if}
+</button>

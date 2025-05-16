@@ -1,0 +1,96 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# General coding rules
+general:
+  - Strictly follow Svelte 5 and TypeScript best practices
+  - Never generate code without checking compatibility with Bun and SvelteKit
+  - Use explicit typing with TypeScript; avoid 'any' types
+  - Follow naming conventions: PascalCase for components, camelCase for variables/functions
+  - Only use libraries explicitly declared in the project dependencies
+  - When unsure about implementation, check existing code patterns before guessing
+  - Maintain consistent spacing and indentation (2 spaces)
+
+# Component structure rules
+components:
+  - Each component must be in its own directory within lib/components
+  - Component directories should follow structure: index.ts, ComponentName.svelte, types.ts
+  - All components must be properly typed with TypeScript
+  - Export all component props as interfaces in types.ts
+  - All components must support both light and dark themes
+  - Implement keyboard accessibility in all interactive components
+  - All components must re-export through lib/index.ts
+  - Component names should match their file names exactly
+# Theme implementation
+theme:
+  - Use CSS variables for all theme colors and values
+  - Follow the defined color token system precisely
+  - All components must reference theme tokens, never hardcoded colors
+  - Respect the border-radius system defined in the theme
+  - Always implement both light and dark mode variants
+  - Components must adapt to theme changes without page refresh
+
+# Tailwind usage
+tailwind:
+  - Use Tailwind utility classes as primary styling method
+  - Create consistent component variants using Tailwind variants
+  - Avoid inline styles; use Tailwind classes instead
+  - For complex components, create custom Tailwind plugins
+  - Reference the theme tokens in Tailwind configuration
+  - Use proper responsive classes for different screen sizes
+
+# TypeScript enforcement
+typescript:
+  - Create proper type definitions for all components and utilities
+  - Export types and interfaces for public API surface
+  - Use generics where appropriate for flexible components
+  - Add JSDoc comments to explain complex type definitions
+  - All props must have explicit types
+  - Ensure complete type safety throughout the codebase
+
+# Project structure
+structure:
+  - Follow the defined project structure strictly
+  - Maintain proper exports in index.ts files
+  - Keep utils, hooks, and components properly separated
+  - Follow defined folder naming conventions
+  - Properly export types and components
+  - Maintain flat import paths for public API
+
+# Documentation
+documentation:
+  - Document all component props with JSDoc comments
+  - Include usage examples in component documentation
+  - Document theme customization options
+  - Provide accessibility information for each component
+  - Document component variants and configurations
+  - Document component composition patterns
+
+# Testing rules
+testing:
+  - Create unit tests for all utility functions
+  - Include component tests for all interactive behaviors
+  - Test both light and dark theme variants
+  - Test keyboard accessibility
+  - Test responsive behaviors
+  - Test proper theme application
+
+# CLI implementation
+cli:
+  - Validate user input and provide clear error messages
+  - Support individual component installation
+  - Generate proper theme files in user projects
+  - Follow Bun best practices for CLI tools
+  - Provide helpful logging during installation process
+  - Support configuration options for advanced users
+
+# Error prevention
+prevention:
+  - Never assume library availability without checking dependencies
+  - Verify Svelte 5 compatibility for all components
+  - Check for DOM API compatibility before usage
+  - Use defensive coding patterns for user inputs
+  - Add proper type guards to prevent runtime errors
+  - Validate props and provide meaningful defaults
